@@ -57,10 +57,13 @@ def watershed_segmentation(image):
 
     # Iterate the intensity_list in ascending order
     region_number = 0
-    for item in intensity_list:
-        intensity = item[0]
-        i = item[1][0]
-        j = item[1][1]
+    for idx in range(len(intensity_list)):
+        sys.stdout.write("\rPixel {} of {}...".format(idx, len(intensity_list)))
+        sys.stdout.flush()
+
+        intensity = intensity_list[idx][0]
+        i = intensity_list[idx][1][0]
+        j = intensity_list[idx][1][1]
 
         # Get the region number of the current pixel's region by checking its neighbouring pixels
         region_status = neighbourhood(segmented_image, i, j)
@@ -90,8 +93,15 @@ def main(argv):
     # Perform segmentation using watershed_segmentation on the input image
     segmented_image = watershed_segmentation(img)
 
-    # Print the segmented image
-    #cv2.imshow(segmented_image, 0)
+    # Save the segmented image
+    cv2.imwrite("images/target.png", segmented_image)
+
+    # Show the segmented image
+    input_image = cv2.resize(img, (0,0), None, 0.5, 0.5)
+    seg_image = cv2.resize(cv2.imread("images/target.png", 0), (0,0), None, 0.5, 0.5)
+    numpy_horiz = numpy.hstack((input_image, seg_image))
+    cv2.imshow('Input image ------------------------ Segmented image', numpy_horiz)
+    cv2.waitKey(0)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
