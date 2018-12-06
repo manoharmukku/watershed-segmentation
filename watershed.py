@@ -10,6 +10,7 @@ import cv2
 import numpy
 
 def neighbourhood(image, x, y):
+    # Save the neighbourhood pixel's values in a dictionary
     neighbour_reg_nums = {}
     for i in range(-1, 2):
         for j in range(-1, 2):
@@ -17,23 +18,27 @@ def neighbourhood(image, x, y):
                 continue
             if (x+i < 0 or y+j < 0):
                 continue
+            if (x+i >= image.shape[0] or y+j >= image.shape[1]):
+                continue
             if (neighbour_reg_nums.get(image[x+i][y+j]) == None):
                 neighbour_reg_nums[image[x+i][y+j]] = 1
-            else
+            else:
                 neighbour_reg_nums[image[x+i][y+j]] += 1
 
-    keys = neighbour_reg_nums.keys().sort()
+    # Get the sorted keys of the dictionary
+    key_values = list(neighbour_reg_nums)
+    key_values.sort()
 
-    if (keys[0] == -1):
-        if (len(keys) == 1): # Separate region
+    if (key_values[0] == -1):
+        if (len(key_values) == 1): # Separate region
             return -1
-        elif (len(keys) == 2): # Part of another region
-            return keys[1]
+        elif (len(key_values) == 2): # Part of another region
+            return key_values[1]
         else: # Watershed
             return 0
     else:
-        if (len(keys) == 1): # Part of another region
-            return keys[0]
+        if (len(key_values) == 1): # Part of another region
+            return key_values[0]
         else: # Watershed
             return 0
 
