@@ -9,6 +9,34 @@ import sys
 import cv2
 import numpy
 
+def neighbourhood(image, x, y):
+    neighbour_reg_nums = {}
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            if (i == 0 and j == 0):
+                continue
+            if (x+i < 0 or y+j < 0):
+                continue
+            if (neighbour_reg_nums.get(image[x+i][y+j]) == None):
+                neighbour_reg_nums[image[x+i][y+j]] = 1
+            else
+                neighbour_reg_nums[image[x+i][y+j]] += 1
+
+    keys = neighbour_reg_nums.keys().sort()
+
+    if (keys[0] == -1):
+        if (len(keys) == 1): # Separate region
+            return -1
+        elif (len(keys) == 2): # Part of another region
+            return keys[1]
+        else: # Watershed
+            return 0
+    else:
+        if (len(keys) == 1): # Part of another region
+            return keys[0]
+        else: # Watershed
+            return 0
+
 def watershed_segmentation(image):
     # Create a list of pixel intensities along with their coordinates
     intensity_list = []
@@ -29,7 +57,7 @@ def watershed_segmentation(image):
         i = item[1][0]
         j = item[1][1]
 
-        # Get the status of the region of the current pixel by checking its neighbouring pixels
+        # Get the region number of the current pixel's region by checking its neighbouring pixels
         region_status = neighbourhood(segmented_image, i, j)
 
         if (region_status == -1): # Separate region
