@@ -1,6 +1,6 @@
 # Watershed Segmentation Implementation
 
-This is a basic implementation of Watershed segmentation algorithm in python
+This is a basic implementation of Watershed segmentation algorithm in python3.
 
 ### How to run:
 
