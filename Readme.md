@@ -2,19 +2,19 @@
 
 This is a basic implementation of Watershed segmentation algorithm in python3.
 
-### How to run:
+## How to run:
 
 First, clone the project:
 
-`$ git clone https://github.com/manoharmukku/watershed-segmentation`
+```$ git clone https://github.com/manoharmukku/watershed-segmentation```
 
 Next, change the directory to the cloned project:
 
-`$ cd watershed-segmentation`
+```$ cd watershed-segmentation```
 
 Then, run the algorithm:
 
-`$ python watershed.py images/1.png`
+```$ python watershed.py images/1.png```
 
 where images/1.png is the location of the input image
 
