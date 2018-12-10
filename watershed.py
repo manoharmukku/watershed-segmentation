@@ -11,7 +11,7 @@ import numpy
 
 def neighbourhood(image, x, y):
     # Save the neighbourhood pixel's values in a dictionary
-    neighbour_reg_nums = {}
+    neighbour_region_numbers = {}
     for i in range(-1, 2):
         for j in range(-1, 2):
             if (i == 0 and j == 0):
@@ -20,13 +20,19 @@ def neighbourhood(image, x, y):
                 continue
             if (x+i >= image.shape[0] or y+j >= image.shape[1]): # If coordinates out of image range, skip
                 continue
-            if (neighbour_reg_nums.get(image[x+i][y+j]) == None):
-                neighbour_reg_nums[image[x+i][y+j]] = 1 # Create entry in dictionary if not already present
+            if (neighbour_region_numbers.get(image[x+i][y+j]) == None):
+                neighbour_region_numbers[image[x+i][y+j]] = 1 # Create entry in dictionary if not already present
             else:
-                neighbour_reg_nums[image[x+i][y+j]] += 1 # Increase count in dictionary if already present
+                neighbour_region_numbers[image[x+i][y+j]] += 1 # Increase count in dictionary if already present
 
-    # Get the sorted keys of the dictionary
-    keys = list(neighbour_reg_nums)
+    # Remove the key - 0 if exists
+    if (neighbour_region_numbers.get(0) != None):
+        del neighbour_region_numbers[0]
+
+    # Get the keys of the dictionary
+    keys = list(neighbour_region_numbers)
+
+    # Sort the keys for ease of checking
     keys.sort()
 
     if (keys[0] == -1):
