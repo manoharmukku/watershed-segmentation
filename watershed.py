@@ -10,6 +10,17 @@ import cv2
 import numpy
 
 def neighbourhood(image, x, y):
+    """
+    Detect whether a pixel at a coordinate is part of a new region, part of an existing region of boundary between two existing regions.
+    Args:
+        image: 2D array, segmentation mask
+        x: The x coordinate
+        y: The y coordinate
+    Returns:
+        -1: If new regions
+        0: if boundary
+        Region number if part of a region
+    """
     # Save the neighbourhood pixel's values in a dictionary
     neighbour_region_numbers = {}
     for i in range(-1, 2):
@@ -49,6 +60,14 @@ def neighbourhood(image, x, y):
             return 0
 
 def watershed_segmentation(image):
+    """
+    Use watershed to segment the given image
+    Args:
+        image: 2D array, input image
+    Returns:
+        2D array containing the segmentation mask
+    """
+
     # Create a list of pixel intensities along with their coordinates
     intensity_list = []
     for x in range(image.shape[0]):
@@ -70,7 +89,9 @@ def watershed_segmentation(image):
         sys.stdout.flush()
 
         # Get the pixel intensity and the x,y coordinates
-        intensity = intensity_list[i][0]
+        value = intensity_list[i][0]
+        if value == 0:
+            break
         x = intensity_list[i][1][0]
         y = intensity_list[i][1][1]
 
